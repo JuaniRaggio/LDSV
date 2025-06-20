@@ -22,5 +22,4 @@ _Live Data Structure Visiualizer_
 
 - Practice 2D graphics
 
-- Learn C++
-
+- Not yet decided where to develop it but the idea is building it on C++

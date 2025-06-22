@@ -3,7 +3,6 @@
 > [!WARNING]
 > - Work in progress
 > - Learning Qt
-> - MVC Architecture
 
 # Building proyect
 

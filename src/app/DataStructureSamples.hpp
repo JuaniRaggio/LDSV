@@ -1,5 +1,4 @@
 #include "../include/app/Visualizable.hpp"
-#include <memory>
 #include <type_traits>
 
 // type_trait
@@ -10,7 +9,7 @@ concept ColorableType = std::is_base_of<Colorable, T>::value;
 template <typename T>
 struct SingleLinkedNode {
   T data;
-  std::unique_ptr<SingleLinkedNode> next;
+  SingleLinkedNode * next;
 };
 
 template <typename T>
@@ -18,7 +17,8 @@ class LinkedList;
 
 template <typename T>
 class LinkedList : public Visualizable {
+  public:
   private:
-    std::unique_ptr<SingleLinkedNode<T>> head {};
+    SingleLinkedNode<T> * head {};
 };
 

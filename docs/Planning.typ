@@ -20,6 +20,6 @@ _Live Data Structure Visiualizer_
 
 - Make a usefull high level library to show students how data structures work
 
-- Practice 2D graphics
-
 - Not yet decided where to develop it but the idea is building it on C++
+
+- Practice Qt

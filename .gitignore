@@ -1,0 +1,48 @@
+# Build
+/build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Qt
+*.autosave
+*.pro.user
+*.qrc.depends
+*.moc
+*.obj
+*.o
+*.so
+*.a
+*.dll
+*.dylib
+*.exe
+
+# UI Artifacts
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+
+# Compile Commands
+compile_commands.json
+!build/compile_commands.json  # Ignora el symlink en raíz si lo usás
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+*.bak
+*~
+.DS_Store
+
+# Qt Creator
+*.pro.user*
+*.qbs.user*
+*.creator.*
+
+# Misc
+tags
+.cache/
+*.log

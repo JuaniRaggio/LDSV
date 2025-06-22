@@ -23,7 +23,7 @@ template <ColorableAndOrdered T>
 class LinkedList : public Visualizable {
 
   private:
-    SingleLinkedNode<T> * head {};
+    SingleLinkedNode<T> * head {nullptr};
     SingleLinkedNode<T> * last {head};
     int saved_elements {0};
 
@@ -52,11 +52,11 @@ class LinkedList : public Visualizable {
       return saved_elements;
     }
 
-    inline T getFirst() {
+    inline std::optional<T> getFirst() {
       return head->data;
     }
 
-    inline T getLast() {
+    inline std::optional<T> getLast() {
       return last->data;
     }
 

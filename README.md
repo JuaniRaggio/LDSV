@@ -1,3 +1,6 @@
+> [!WARNING]
+> Work in progress
+
 # Building proyect
 
 You can also build the proyect manually using CMake

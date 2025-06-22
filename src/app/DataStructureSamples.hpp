@@ -48,15 +48,25 @@ class LinkedList : public Visualizable {
       return remove(getLast());
     }
 
+    inline bool isEmpty() {
+      return size() == 0;
+    }
+
     inline int size() {
       return saved_elements;
     }
 
     inline std::optional<T> getFirst() {
+      if (isEmpty()) {
+        return std::nullopt;
+      }
       return head->data;
     }
 
     inline std::optional<T> getLast() {
+      if (isEmpty()) {
+        return std::nullopt;
+      }
       return last->data;
     }
 

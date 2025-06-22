@@ -1,7 +1,6 @@
 
 class MainWindow {
   public:
-    void show();
-
+    inline void show() { return; }
 };
 

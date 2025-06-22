@@ -1,6 +1,14 @@
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "*.cpp")
-file(GLOB_RECURSE HEADERS CONFIGURE_DEPENDS "*.hpp")
+file(GLOB_RECURSE APPMODEL_SRC CONFIGURE_DEPENDS ./app/*.cpp)
 
-add_executable(LDSV ${SOURCES} ${HEADERS})
-target_include_directories(LDSV PRIVATE ${CMAKE_SOURCE_DIR}/include)
-target_link_libraries(LDSV PRIVATE Qt6::Widgets)
+add_library(app ${APPMODEL_SRC})
+
+target_include_directories(app PUBLIC ${PROJECT_SOURCE_DIR}/include)
+
+# executable
+file(GLOB_RECURSE UI_SRC CONFIGURE_DEPENDS main.cpp ui/*.cpp)
+
+add_executable(ldsv ${UI_SRC})
+
+target_include_directories(ldsv PRIVATE ${PROJECT_SOURCE_DIR}/include)
+
+target_link_libraries(ldsv PRIVATE app Qt6::Widgets)

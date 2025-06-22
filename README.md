@@ -1,8 +1,13 @@
 # Building proyect
 
 ```sh
-cmake -B build .
-cmake --build build
-./build/ldsv
+chmod +x build.sh
+./build.sh
+```
+
+# Running app
+
+```sh
+./build/LDSV
 ```
 

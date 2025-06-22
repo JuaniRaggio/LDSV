@@ -3,6 +3,7 @@
 > [!WARNING]
 > - Work in progress
 > - Learning Qt
+> - Learning C++
 
 # Building proyect
 

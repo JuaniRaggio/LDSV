@@ -25,7 +25,7 @@ qrc_*.cpp
 
 # Compile Commands
 compile_commands.json
-!build/compile_commands.json  # Ignora el symlink en raíz si lo usás
+!build/compile_commands.json
 
 # IDE
 .vscode/

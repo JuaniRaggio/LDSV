@@ -23,6 +23,7 @@ template <ColorableAndOrdered T>
 class LinkedList : public Visualizable {
   private:
     SingleLinkedNode<T> * head {nullptr};
+    SingleLinkedNode<T> * prev {nullptr};
     SingleLinkedNode<T> * last {head};
     int saved_elements {0};
 
@@ -50,9 +51,24 @@ class LinkedList : public Visualizable {
 
     };
 
+    // Add element if not found
+    // @return true if not found -> added
     bool add(T data);
+
+    // Remove element which returns 0 when
+    // compared with <=>
+    // @return true if found -> deleted
     bool remove(T data);
+
+    // Errase the node at the iterator
+    // @return true if erased
+    bool erase(const Iterator& it);
+
+    // @return true if element is present at List
     bool contains(T data);
+
+    // @return Element at index
+    // @return std::nullopt if invalid idx
     std::optional<T> get(int idx);
 
     Iterator begin() {
@@ -78,22 +94,22 @@ class LinkedList : public Visualizable {
       return remove(getLast());
     }
 
-    inline bool isEmpty() {
+    inline bool isEmpty() const {
       return size() == 0;
     }
 
-    inline int size() {
+    inline int size() const {
       return saved_elements;
     }
 
-    inline std::optional<T> getFirst() {
+    inline std::optional<T> getFirst() const {
       if (isEmpty()) {
         return std::nullopt;
       }
       return head->data;
     }
 
-    inline std::optional<T> getLast() {
+    inline std::optional<T> getLast() const {
       if (isEmpty()) {
         return std::nullopt;
       }

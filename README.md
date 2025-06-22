@@ -1,5 +1,9 @@
+# LDSV - Live Data Structure Visualizer (C++ / Qt)
+
 > [!WARNING]
 > Work in progress
+> Learning Qt
+> MVC Architecture
 
 # Building proyect
 

@@ -2,23 +2,31 @@
 
 #include "../include/app/Visualizable.hpp"
 #include <concepts>
+#include <cstddef>
 #include <optional>
 #include <type_traits>
 
-// type_trait
-// similar to the extension of generic types in Java
+/**
+ * @brief Concept ensuring types are both Colorable and totally ordered
+ * @tparam T The type to check
+ */
 template<typename T>
 concept ColorableAndOrdered = std::is_base_of<Colorable, T>::value && std::totally_ordered<T>;
 
+/**
+ * @brief Node structure for singly linked list
+ * @tparam T The data type stored in the node
+ */
 template <ColorableAndOrdered T>
 struct SingleLinkedNode {
   T data;
   SingleLinkedNode * next;
 };
 
-template <ColorableAndOrdered T>
-class LinkedList;
-
+/**
+ * @brief A singly linked list implementation with visualization capabilities
+ * @tparam T The data type stored in the list
+ */
 template <ColorableAndOrdered T>
 class LinkedList : public Visualizable {
   private:
@@ -28,18 +36,19 @@ class LinkedList : public Visualizable {
     int saved_elements {0};
 
   public:
+    /**
+     * @brief Iterator class for LinkedList
+     */
     class Iterator {
-      using Node = SingleLinkedNode<T>;
       private:
-        Node * current;
+        SingleLinkedNode<T>* current;
 
       public:
 
-        Iterator(Node * starting_point) : current(starting_point) {};
+        Iterator(SingleLinkedNode<T> * starting_point) : current(starting_point) {};
 
         T& operator*() { return current->data; }
 
-        // const means: We won't modify the Iterator
         bool operator!=(const Iterator& other) const {
           return current != other.current;
         }
@@ -49,72 +58,155 @@ class LinkedList : public Visualizable {
           return *this;
         }
 
+        Iterator operator++(int) {
+          Iterator temp = *this;
+          current = current->next;
+          return temp;
+        }
+
+        bool operator==(const Iterator& other) const {
+          return current == other.current;
+        }
+
     };
 
-    // Add element if not found
-    // @return true if not found -> added
-    bool add(T data);
+    /**
+     * @brief Const iterator class for LinkedList
+     */
+    class ConstIterator {
+      private:
+        const SingleLinkedNode<T>* current;
 
-    // Remove element which returns 0 when
-    // compared with <=>
-    // @return true if found -> deleted
-    bool remove(T data);
+      public:
+        ConstIterator(const SingleLinkedNode<T>* starting_point) : current(starting_point) {}
 
-    // Errase the node at the iterator
-    // @return true if erased
-    bool erase(const Iterator& it);
+        const T& operator*() const { return current->data; }
 
-    // @return true if element is present at List
-    bool contains(T data);
+        ConstIterator& operator++() {
+          current = current->next;
+          return *this;
+        }
 
-    // @return Element at index
-    // @return std::nullopt if invalid idx
-    std::optional<T> get(int idx);
+        ConstIterator operator++(int) {
+          ConstIterator temp = *this;
+          current = current->next;
+          return temp;
+        }
 
-    Iterator begin() {
-      return Iterator(head);
-    }
+        bool operator==(const ConstIterator& other) const {
+          return current == other.current;
+        }
 
-    Iterator end() {
-      return Iterator(nullptr);
-    }
+        bool operator!=(const ConstIterator& other) const {
+          return current != other.current;
+        }
+    };
 
-    // Removes and returns head
-    inline std::optional<T> pull() {
-      T return_value = getFirst();
-      removeFirst();
-      return return_value;
-    }
+    // Constructors
+    LinkedList() : head(nullptr), last(nullptr), prev(nullptr), saved_elements(0) {}
 
-    inline bool removeFirst() {
-      return remove(getFirst());
-    }
-
-    inline bool removeLast() {
-      return remove(getLast());
-    }
-
-    inline bool isEmpty() const {
-      return size() == 0;
-    }
-
-    inline int size() const {
-      return saved_elements;
+    LinkedList(const LinkedList& other) : head(nullptr), last(nullptr), prev(nullptr), saved_elements(0) {
+      for (const T& item : other) {
+        push_back(item);
+      }
     }
 
     inline std::optional<T> getFirst() const {
-      if (isEmpty()) {
+      if (empty()) {
         return std::nullopt;
       }
       return head->data;
     }
 
     inline std::optional<T> getLast() const {
-      if (isEmpty()) {
+      if (empty()) {
         return std::nullopt;
       }
       return last->data;
     }
+
+    /**
+     * @brief Add element to the end of the list
+     * @param data The data to add
+     * @return true if added successfully
+     */
+    bool pushBack(const T& data);
+
+    /**
+     * @brief Add element to the beginning of the list
+     * @param data The data to add
+     * @return true if added successfully
+     */
+    bool pushFront(const T& data);
+
+    /**
+     * @brief Remove element from the list
+     * @param data The data to remove
+     * @return true if found and removed
+     */
+    bool remove(const T& data);
+
+    /**
+     * @brief Remove element at iterator position
+     * @param it Iterator pointing to the element to remove
+     * @return Iterator pointing to the next element
+     */
+    Iterator erase(const Iterator& it);
+
+    /**
+     * @brief Check if element exists in the list
+     * @param data The data to search for
+     * @return true if found
+     */
+    bool contains(const T& data) const;
+
+    /**
+     * @brief Get element at index
+     * @param idx The index
+     * @return Optional containing the element or nullopt if invalid index
+     */
+    std::optional<T> at(size_t idx) const;
+
+    /**
+     * @brief Get element at index (unchecked)
+     * @param idx The index
+     * @return Reference to the element
+     * @throws std::out_of_range if index is invalid
+     */
+    T& operator[](size_t idx);
+    const T& operator[](size_t idx) const;
+
+    // Iterator methods
+    Iterator begin() { return Iterator(head); }
+    Iterator end() { return Iterator(nullptr); }
+    ConstIterator begin() const { return ConstIterator(head); }
+    ConstIterator end() const { return ConstIterator(nullptr); }
+    ConstIterator cbegin() const { return ConstIterator(head); }
+    ConstIterator cend() const { return ConstIterator(nullptr); }
+
+    // Convenience methods
+    std::optional<T> pop_front();
+    std::optional<T> pop_back();
+
+    bool remove_first() { return pop_front().has_value(); }
+    bool remove_last() { return pop_back().has_value(); }
+
+    bool empty() const { return saved_elements == 0; }
+    size_t size() const { return saved_elements; }
+
+    std::optional<T> front() const;
+    std::optional<T> back() const;
+
+    /**
+     * @brief Clear all elements from the list
+     */
+    void clear();
+
+    // interface
+    std::string to_string() const override;
+    std::string get_type_name() const override;
+    std::vector<std::string> get_visualization_data() const override;
+    bool is_valid() const override;
 
 };
 

@@ -184,7 +184,6 @@ class LinkedList : public Visualizable {
     ConstIterator cbegin() const { return ConstIterator(head); }
     ConstIterator cend() const { return ConstIterator(nullptr); }
 
-    // Convenience methods
     std::optional<T> pop_front();
     std::optional<T> pop_back();
 

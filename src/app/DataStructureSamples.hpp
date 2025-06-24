@@ -20,6 +20,8 @@ concept ColorableAndOrdered = std::is_base_of<Colorable, T>::value && std::total
 template <ColorableAndOrdered T>
 struct SingleLinkedNode {
   T data;
+  // Have to decide if the visualization works using
+  // just a next node or if we also need the previous node
   SingleLinkedNode * next;
 };
 
@@ -31,8 +33,7 @@ template <ColorableAndOrdered T>
 class LinkedList : public Visualizable {
   private:
     SingleLinkedNode<T> * head {nullptr};
-    SingleLinkedNode<T> * prev {nullptr};
-    SingleLinkedNode<T> * last {head};
+    SingleLinkedNode<T> * last {nullptr};
     int saved_elements {0};
 
   public:
@@ -103,9 +104,9 @@ class LinkedList : public Visualizable {
     };
 
     // Constructors
-    LinkedList() : head(nullptr), last(nullptr), prev(nullptr), saved_elements(0) {}
+    LinkedList() : head(nullptr), last(nullptr), saved_elements(0) {}
 
-    LinkedList(const LinkedList& other) : head(nullptr), last(nullptr), prev(nullptr), saved_elements(0) {
+    LinkedList(const LinkedList& other) : head(nullptr), last(nullptr), saved_elements(0) {
       for (const T& item : other) {
         push_back(item);
       }

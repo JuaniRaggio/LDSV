@@ -112,14 +112,14 @@ class LinkedList : public Visualizable {
       }
     }
 
-    inline std::optional<T> getFirst() const {
+    inline std::optional<T> get_first() const {
       if (empty()) {
         return std::nullopt;
       }
       return head->data;
     }
 
-    inline std::optional<T> getLast() const {
+    inline std::optional<T> get_last() const {
       if (empty()) {
         return std::nullopt;
       }
@@ -131,14 +131,14 @@ class LinkedList : public Visualizable {
      * @param data The data to add
      * @return true if added successfully
      */
-    bool pushBack(const T& data);
+    bool push_back(const T& data);
 
     /**
      * @brief Add element to the beginning of the list
      * @param data The data to add
      * @return true if added successfully
      */
-    bool pushFront(const T& data);
+    bool push_front(const T& data);
 
     /**
      * @brief Remove element from the list
